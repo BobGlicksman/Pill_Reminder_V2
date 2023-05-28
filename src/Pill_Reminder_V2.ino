@@ -1,20 +1,30 @@
 
 /*
- Stepper Motor Control - one step at a time
+ TURNTABLE TEST PROGRAM
 
- This program drives a unipolar or bipolar stepper motor.
- The motor is attached to digital pins 8 - 11 of the Arduino.
+ This program drives a 28BYJ-48 unipolar stepper motor with UNL2003 quad darlington driver.
+ The number of steps in a full rotation is calculated to be:
+ - Basic stepper: 32 
+ - Stepper internal gearing: 63.68395
+ - turntable gearing" 5.66666....
 
- The motor will step one step at a time, very slowly.  You can use this to
- test that you've got the four wires of your stepper wired to the correct
- pins. If wired correctly, all steps should be in the same direction.
+ This program uses the Arduino stepper library and runs on a Particle Photon. Photon pins
+ D0, D1, D2 and D3 are wired to stepper motor driver IN1, IN2, IN3 and IN4, respectively, through
+ 3.3 volt to 5 volt converters (SN74HCT125N).
 
- Use this also to count the number of steps per revolution of your motor,
- if you don't know it.  Then plug that number into the oneRevolution
- example to see if you got it right.
+ Note that for these unipolar stepper motors to work, the motor lead sequnce to the library
+ constructor must be IN1, IN3, IN2 and IN4, that this exact sequence.
 
- Created 30 Nov. 2009
- by Tom Igoe
+ The main purpose of this test program is to test proper control of the stepper and assess
+ the maximum turntable speed that can be achieved.  The parameter to set the speed of stepping
+ is the global constant "delayTime" (value in milliseconds).  
+
+ The program turns the turntable one full revolution clockwise and then one full revolution
+ counter-clockwise with a 500 ms delay between direction reversals.  The program repeats 
+ indefinitely.
+
+ (c) 2023; by: Bob Glicksman, Jim Schrempp, Team Practical Projects
+ All rights reserved.
 
  */
 
@@ -22,16 +32,13 @@
 
 const int stepsPerRevolution = 2038;  // not needed in this test code
 const int delayTime = 2;  // The smallest delay that the stepper will work at (2 ms per step)!
-const int stepsInOneDirection = 12228; // 2038 * 6
+const int stepsInOneDirection = 11548; // 32 * 63.68395 * 5.6666...
 
-// initialize the stepper library, sequence is IN1, IN3, IN2, IN4 on pins 8 through 11:
-Stepper myStepper(stepsPerRevolution, D0, D2, D1, D3);
-
-int stepCount = 0;         // number of steps the motor has taken
+// initialize the stepper library, sequence is IN1, IN3, IN2, IN4 on pins D0 through D3:
+Stepper myStepper(stepsPerRevolution, D0, D2, D1, D3);  // note the pin sequence in the constructor!
 
 void setup() {
-  // initialize the serial port:
-  Serial.begin(9600);
+  // the stepper library does all of the needed pinMode() stuff.
 }
 
 void loop() {
