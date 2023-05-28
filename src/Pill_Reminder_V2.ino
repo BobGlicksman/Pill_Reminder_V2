@@ -20,9 +20,9 @@
 
 #include <Stepper.h>
 
-const int stepsPerRevolution = 2038;
-const int delayTime = 2;
-const int stepsInOneDirection = 12228; // 20138 * 6
+const int stepsPerRevolution = 2038;  // not needed in this test code
+const int delayTime = 2;  // The smallest delay that the stepper will work at (2 ms per step)!
+const int stepsInOneDirection = 12228; // 2038 * 6
 
 // initialize the stepper library, sequence is IN1, IN3, IN2, IN4 on pins 8 through 11:
 Stepper myStepper(stepsPerRevolution, D0, D2, D1, D3);
@@ -40,7 +40,7 @@ void loop() {
     myStepper.step(1);
     delay(delayTime);
   }
-  // pause beforte reversing
+  // pause before reversing
   delay(500);
 
   // step backward 1 rev
@@ -48,7 +48,7 @@ void loop() {
     myStepper.step(-1);
     delay(delayTime);
   }
-  // pause beforte reversing
+  // pause before reversing
   delay(500);
 
 }
