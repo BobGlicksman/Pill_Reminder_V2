@@ -4,5 +4,7 @@ Links for Pill Reminder V2 Turntable:
 2.  Turntable STL files (remix):  https://www.thingiverse.com/thing:5586948/files
 3.  Turntable STL files (original - with parts list, etc.):  https://www.thingiverse.com/thing:4817279
 4.  Hall effect sensor (how to use):  https://maker.pro/arduino/tutorial/how-to-use-a-hall-effect-sensor-with-arduino
+5.  Hall effect switch from Adafruit:  https://www.adafruit.com/product/158
+
 
 
