@@ -36,11 +36,11 @@ SYSTEM_MODE(AUTOMATIC);
 SYSTEM_THREAD(ENABLED);
 
 const int stepsPerRevolution = 2038;  // not needed in this test code
-const int delayTime = 2;  // The smallest delay that the stepper will work at (2 ms per step)!
+const int delayTime = 2000;  // The smallest delay that the stepper will work (in microseconds))!
 const int stepsInOneDirection = 11548; // 32 * 63.68395 * 5.6666...
 
-// initialize the stepper library, sequence is IN1, IN3, IN2, IN4 on pins D0 through D3:
-Stepper myStepper(stepsPerRevolution, D0, D2, D1, D3);  // note the pin sequence in the constructor!
+// initialize the stepper library, sequence is IN1, IN3, IN2, IN4 on pins D2 through D5:
+Stepper myStepper(stepsPerRevolution, D2, D4, D3, D5);  // note the pin sequence in the constructor!
 
 void setup() {
   // the stepper library does all of the needed pinMode() stuff.
@@ -50,7 +50,7 @@ void loop() {
   // step forward 1 rev:
   for(int i = 0; i < stepsInOneDirection; i++)  {
     myStepper.step(1);
-    delay(delayTime);
+    delayMicroseconds(delayTime);
   }
   // pause before reversing
   delay(500);
@@ -58,7 +58,7 @@ void loop() {
   // step backward 1 rev
   for(int i = 0; i < stepsInOneDirection; i++)  {
     myStepper.step(-1);
-    delay(delayTime);
+    delayMicroseconds(delayTime);
   }
   // pause before reversing
   delay(500);
