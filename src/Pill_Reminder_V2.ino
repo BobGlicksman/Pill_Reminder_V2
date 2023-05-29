@@ -6,10 +6,10 @@
  The number of steps in a full rotation is calculated to be:
  - Basic stepper: 32 
  - Stepper internal gearing: 63.68395
- - turntable gearing" 5.66666....
+ - turntable gearing: 5.66666....  (85:15)
 
  This program uses the Arduino stepper library and runs on a Particle Photon. Photon pins
- D0, D1, D2 and D3 are wired to stepper motor driver IN1, IN2, IN3 and IN4, respectively, through
+ D2, D3, D4 and D5 are wired to stepper motor driver IN1, IN2, IN3 and IN4, respectively, through
  3.3 volt to 5 volt converters (SN74HCT125N).
 
  Note that for these unipolar stepper motors to work, the motor lead sequnce to the library
@@ -23,7 +23,7 @@
  counter-clockwise with a 500 ms delay between direction reversals.  The program repeats 
  indefinitely.
 
-  version 1.0:  Initial release for testing
+  version 1.0, 5/29/2023:  Initial release for testing
 
  (c) 2023; by: Bob Glicksman, Jim Schrempp, Team Practical Projects
  All rights reserved.
