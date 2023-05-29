@@ -23,12 +23,17 @@
  counter-clockwise with a 500 ms delay between direction reversals.  The program repeats 
  indefinitely.
 
+  version 1.0:  Initial release for testing
+
  (c) 2023; by: Bob Glicksman, Jim Schrempp, Team Practical Projects
  All rights reserved.
 
  */
 
 #include <Stepper.h>
+
+SYSTEM_MODE(AUTOMATIC);
+SYSTEM_THREAD(ENABLED);
 
 const int stepsPerRevolution = 2038;  // not needed in this test code
 const int delayTime = 2;  // The smallest delay that the stepper will work at (2 ms per step)!
