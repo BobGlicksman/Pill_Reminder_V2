@@ -23,6 +23,7 @@
  counter-clockwise with a 500 ms delay between direction reversals.  The program repeats 
  indefinitely.
 
+  version 1.1; 6/5/2023;  Added hall effect sensor and home the platen on each loop.
   version 1.0, 5/29/2023:  Initial release for testing
 
  (c) 2023; by: Bob Glicksman, Jim Schrempp, Team Practical Projects
@@ -38,30 +39,57 @@ SYSTEM_THREAD(ENABLED);
 const int stepsPerRevolution = 2038;  // not needed in this test code
 const int delayTime = 2000;  // The smallest delay that the stepper will work (in microseconds))!
 const int stepsInOneDirection = 11548; // 32 * 63.68395 * 5.6666...
+const int stepsForNextSlot = 722; // 1/16 of the way around
 
 // initialize the stepper library, sequence is IN1, IN3, IN2, IN4 on pins D2 through D5:
 Stepper myStepper(stepsPerRevolution, D2, D4, D3, D5);  // note the pin sequence in the constructor!
 
 void setup() {
-  // the stepper library does all of the needed pinMode() stuff.
+  // the stepper library does all of the needed pinMode() stuff for the stepper.
+  pinMode(A0, INPUT); // Pin to read the Hall Effect Sensor for home position
+  
 }
 
 void loop() {
-  // step forward 1 rev:
-  for(int i = 0; i < stepsInOneDirection; i++)  {
+  // first thing - home the platen
+  seekHome();
+  delay(2000);  // pause to indicate that we are homed
+
+  // step forward for one slot:
+  for(int i = 0; i < stepsForNextSlot; i++)  {
     myStepper.step(1);
     delayMicroseconds(delayTime);
   }
-  // pause before reversing
+  // pause
   delay(500);
 
-  // step backward 1 rev
-  for(int i = 0; i < stepsInOneDirection; i++)  {
+// step forward for one slot:
+  for(int i = 0; i < stepsForNextSlot; i++)  {
+    myStepper.step(1);
+    delayMicroseconds(delayTime);
+  }
+  // pause
+  delay(500);  
+
+  // step backward for one slot:
+  for(int i = 0; i < stepsForNextSlot; i++)  {
     myStepper.step(-1);
     delayMicroseconds(delayTime);
   }
-  // pause before reversing
+  // pause before homing
   delay(500);
 
 }
+
+// function to home the sensor
+//  The home position is where the Hall Sensor output goes LOW
+void seekHome() {
+  while (digitalRead(A0) == HIGH) {  // the position is not home, so step
+    myStepper.step(1);  // take one step clockwise
+    delayMicroseconds(delayTime);
+  }
+
+  // we are at the home position
+  return;
+} // end of seekHome()
 
